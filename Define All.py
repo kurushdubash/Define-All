@@ -1,5 +1,4 @@
-import xmltodict, json
-import requests
+import requests, json
 
 def get_def(word):
 	url = 'http://api.wordnik.com/v4/word.json/' + str(word) + '/definitions?limit=1&includeRelated=true&sourceDictionaries=all&useCanonical=false&includeTags=false&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5'
@@ -7,8 +6,10 @@ def get_def(word):
 		response = requests.get(url).text
 		response = json.loads(response)[0]
 		definition = response['text']
+	except IndexError:
+		definition = 'No definitions found.'
 	except:
-		definition = 'Something went wrong : Could not find defintiion'
+		definition = 'FAILED --- Something went wrong.'
 	return definition
 
 print("Input a list of words\n")
